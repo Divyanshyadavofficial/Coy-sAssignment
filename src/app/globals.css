@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
+/* Coy palette: hot pink + ink, with sticker-sheet accents. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --pink: #ff3d81;
+  --pink-deep: #d81e63;
+  --pink-soft: #ffe1ec;
+  --ink: #15121d;
+  --ink-soft: #5d5866;
+  --paper: #fff7f0;
+  --butter: #ffd84d;
+  --mint: #8ee3c0;
+  --lilac: #c7b5ff;
+  --sky: #9fd3ff;
+  --peach: #ffc285;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-pink: var(--pink);
+  --color-pink-deep: var(--pink-deep);
+  --color-pink-soft: var(--pink-soft);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-butter: var(--butter);
+  --color-mint: var(--mint);
+  --color-lilac: var(--lilac);
+  --color-sky: var(--sky);
+  --color-peach: var(--peach);
+
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+
+  --shadow-hard-sm: 2px 2px 0 0 var(--ink);
+  --shadow-hard: 4px 4px 0 0 var(--ink);
+  --shadow-hard-lg: 6px 7px 0 0 var(--ink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Faint paper grain so flat colour doesn't feel digital. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* On wide screens the app sits like a phone on a dotted cutting mat. */
+@media (min-width: 640px) {
+  body {
+    background-color: var(--pink-soft);
+    background-image: radial-gradient(var(--pink) 1.1px, transparent 1.3px);
+    background-size: 22px 22px;
+  }
+  .app-shell {
+    background: var(--paper);
+    border-inline: 2.5px solid var(--ink);
+    box-shadow: 10px 0 0 0 var(--ink);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Chunky "pressable" buttons: shadow collapses when pushed. */
+.press {
+  box-shadow: var(--shadow-hard);
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 150ms ease;
+}
+.press:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+.press:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 var(--ink);
+}
+.press:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 3px;
+}
+
+/* Rubber stamp look for LIKE / NOPE. */
+.stamp {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border: 4px solid currentColor;
+  border-radius: 12px;
+  padding: 2px 12px;
+  text-transform: uppercase;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes floaty {
+  0% { transform: translateY(0) rotate(var(--r, 0deg)); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translateY(-110vh) rotate(calc(var(--r, 0deg) + 40deg)); opacity: 0.9; }
+}
+.floaty {
+  animation: floaty var(--d, 6s) linear var(--delay, 0s) infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.wiggle {
+  animation: wiggle 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floaty,
+  .wiggle {
+    animation: none;
+  }
 }
