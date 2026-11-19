@@ -24,9 +24,10 @@ export async function POST(request: Request) {
     );
   }
 
+  const db = await appDb();
   try {
     const { targetId, direction } = parsed.data;
-    const result = recordSwipe(await appDb(), CURRENT_USER_ID, targetId, direction);
+    const result = recordSwipe(db, CURRENT_USER_ID, targetId, direction);
     return Response.json(result, { status: 201 });
   } catch (err) {
     return errorResponse(err);
