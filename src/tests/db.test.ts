@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createDb } from "../lib/db";
+import { seed, LIKED_ME, PASSED_ME } from "../lib/seed";
 
 describe("db", () => {
   it("creates tables and enforces constraints", () => {
@@ -17,5 +18,29 @@ describe("db", () => {
     expect(() => swipe.run("me", "me", "like", Date.now())).toThrow(); // self swipe
     expect(() => swipe.run("me", "ghost", "like", Date.now())).toThrow(); // FK
     expect(() => swipe.run("p1", "me", "love", Date.now())).toThrow(); // bad direction
+  });
+
+  it("seeds 30+ profiles and pre-likes, and is re-runnable", () => {
+    const db = createDb(":memory:");
+    seed(db);
+    seed(db); // running twice must not fail or duplicate data
+
+    const profiles = db
+      .prepare("SELECT COUNT(*) AS n FROM profiles WHERE id <> 'me'")
+      .get() as { n: number };
+    expect(profiles.n).toBeGreaterThanOrEqual(30);
+
+    const likes = db
+      .prepare("SELECT COUNT(*) AS n FROM swipes WHERE target_id = 'me' AND direction = 'like'")
+      .get() as { n: number };
+    expect(likes.n).toBe(LIKED_ME.length);
+
+    const passes = db
+      .prepare("SELECT COUNT(*) AS n FROM swipes WHERE target_id = 'me' AND direction = 'pass'")
+      .get() as { n: number };
+    expect(passes.n).toBe(PASSED_ME.length);
+
+    const matches = db.prepare("SELECT COUNT(*) AS n FROM matches").get() as { n: number };
+    expect(matches.n).toBe(0); // no matches until "me" likes someone back
   });
 });
