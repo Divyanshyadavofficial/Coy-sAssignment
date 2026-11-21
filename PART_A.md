@@ -23,33 +23,14 @@ It's optional, it takes one tap, and it disappears after it's used.
 
 ---
 
-## 2. Letting go of a crush, safely
+Letting go of a crush
 
-### What it is
+"Right now, adding a crush is final. That's deliberate, because it stops people adding and removing names to figure out who likes them. The downside is a slot can get stuck forever on someone you're over.
 
-Today adding is final, which is the right default: it stops people adding and removing names to work out who likes them.
+My fix: let a slot be released, but only after a long cooldown, say 90 days after the last heads-up. Once released, the slot frees up and you can't re-add that same person for a long time. Nobody else sees anything, so there's no signal to probe.
 
-The problem is that a crush slot can sit there forever. If the heads-ups have all gone out (Coy sends at most 3) and nothing has happened after a long time, the person is stuck with a dead slot.
+Why it matters: feelings change, especially in college, and three free slots run out fast. Without this, users either pay or quietly leave. With it, they move on to a new crush, stay active, and keep inviting friends. Paid slots still make sense for people who want more than three at once."
 
-I'd let a slot be **released only after a long cooldown**, say 90 days after the last heads-up. Releasing:
+One-line answer if they push on it: "Probing needs fast add/remove cycles. A 90-day wait makes that pointless, but still lets honest users move on."
 
-- frees the slot to use on someone else, and
-- blocks re-adding the same person for a long time (or permanently).
-
-From the outside, nothing visible changes. The other person never gets a message, and no count goes up or down.
-
-### Why it's needed
-
-- **Three free slots run out fast when one is stuck.** Feelings change, especially in college. A slot tied to someone you're over is both sad and useless, and the main options left are to pay for more or to stop using Coy.
-- **It doesn't break "adding is final".** That rule exists to stop people probing. Probing needs quick add/remove cycles. A 90-day wait with a long re-add block makes that useless, while still giving honest users a way to move on.
-- **It keeps people coming back.** A user who can move on to a new crush stays active and keeps inviting friends. A user staring at three dead slots quietly leaves.
-- **It can live alongside paid slots.** Bought slots still make sense for people who want more than three at once. This only stops slots from being *lost* forever, so it builds trust rather than replacing revenue.
-
----
-
-### What I'd measure
-
-| Feature | Signal it's working |
-| --- | --- |
-| First move | Share of matches where the first-move step is used; share of matches where someone taps through to WhatsApp |
-| Slot release | 90-day retention of users with a released slot vs. similar users without; whether released slots get re-used |
+How I'd measure it: 90-day retention of users who released a slot vs. similar users who didn't, and whether released slots get reused.
